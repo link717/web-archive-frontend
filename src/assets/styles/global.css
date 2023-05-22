@@ -10,3 +10,11 @@
     font-size: 14px;
   }
 }
+
+.btn-with-icon {
+  @apply inline-flex items-center gap-1;
+}
+
+.btn-with-icon svg {
+  @apply w-4 h-4;
+}
