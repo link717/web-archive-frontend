@@ -17,16 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const getLayout = (Component as TDefaultLayoutPage).getLayout || ((Page: NextComponentType, props: Record<string, unknown>) => <Page {...props} />);
 
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: '#63489a',
-          colorLink: '#63489a',
-          colorLinkHover: '#7f68a6',
-        },
-      }}
-      locale={koKR}
-    >
+    <ConfigProvider locale={koKR}>
       <SWRConfig value={{ fetcher, revalidateOnFocus: false }}>{getLayout(Component, pageProps)}</SWRConfig>
     </ConfigProvider>
   );
