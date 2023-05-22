@@ -5,8 +5,8 @@ import { NextComponentType } from 'next';
 import type { AppProps } from 'next/app';
 import React from 'react';
 import { SWRConfig } from 'swr';
-import { TDefaultLayoutPage } from '@/components/layout/default-layout';
-import { fetcher } from '@/services/base';
+import { TDefaultLayoutPage } from '@components/layout/default-layout';
+import { fetcher } from '@services/base';
 
 import '@assets/styles/global.css';
 import '@assets/styles/reset.css';
