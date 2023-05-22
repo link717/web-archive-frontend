@@ -18,3 +18,9 @@
 .btn-with-icon svg {
   @apply w-4 h-4;
 }
+
+@media (max-width: 750px) {
+  main {
+    width: 750px;
+  }
+}
