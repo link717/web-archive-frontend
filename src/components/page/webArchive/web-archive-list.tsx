@@ -41,7 +41,7 @@ const WebArchiveList = ({ webArchive, setWebArchive }: IWebArchiveListProps) => 
           <Link
             href={`/web-archive-detail?url=${value}&from=${getDefaultFromDate().format(CLIENT_DATE_FORMAT)}&to=${getDefaultToDate().format(
               CLIENT_DATE_FORMAT
-            )}`}
+            )}&page=1`}
             passHref
             legacyBehavior
           >
