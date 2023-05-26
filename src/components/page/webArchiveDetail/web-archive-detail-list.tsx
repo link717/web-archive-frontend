@@ -11,7 +11,7 @@ import { IWebArchiveDetail, IWebArchiveDetailParams, useWebArchiveDetailList } f
 import { SERVER_DATE_FORMAT } from '../constant';
 
 interface WebArchiveDetailListProps {
-  url: string;
+  url?: string;
 }
 
 const WebArchiveDetailList = ({ url }: WebArchiveDetailListProps) => {

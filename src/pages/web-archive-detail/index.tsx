@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { getDefaultLayout } from '@components/layout/default-layout';
-import WebArchiveDetailFilter from '@components/page/webArchiveDetail/web-archive-detail-filter';
-import WebArchiveDetailList from '@components/page/webArchiveDetail/web-archive-detail-list';
+
+const WebArchiveDetailFilter = React.lazy(() => import('@components/page/webArchiveDetail/web-archive-detail-filter'));
+const WebArchiveDetailList = React.lazy(() => import('@components/page/webArchiveDetail/web-archive-detail-list'));
 
 const WebArchiveDetailPage = () => {
   const router = useRouter();
-  const [url, setUrl] = useState<string | null>();
+  const [url, setUrl] = useState<string>();
 
   useEffect(() => {
     if (router.isReady) {
@@ -14,8 +15,6 @@ const WebArchiveDetailPage = () => {
     }
   }, [router.isReady]);
 
-  // TODO: error 화면으로 대체 처리
-  if (!url) return <></>;
   return (
     <>
       <WebArchiveDetailFilter />
