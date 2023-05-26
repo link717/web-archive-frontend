@@ -43,18 +43,17 @@ const getReformattedData = (data?: string[][]) => {
   if (!data) return [];
   const [column, ...rows] = data;
   const formattedData = rows.map((row) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const obj: any = { id: generatePrefixedId('web-archive-detail') };
+    const obj: unknown = { id: generatePrefixedId('web-archive-detail') };
     column.forEach((key, index) => {
-      obj[key] = row[index];
+      (obj as Record<string, string>)[key] = row[index];
     });
     return obj as IWebArchiveDetail;
   });
   return formattedData;
 };
 
-export const useWebArchiveDetailList = (params: IWebArchiveDetailParams) => {
+export const useWebArchiveDetailList = (params: IWebArchiveDetailParams, shouldFetch?: boolean) => {
   const { url, from, to, output = 'json' } = params;
-  const { data, ...rest } = useSWR(`cdx/search/cdx?${qs.stringify({ url, output, from, to })}`);
+  const { data, ...rest } = useSWR(shouldFetch ? `cdx/search/cdx?${qs.stringify({ url, output, from, to })}` : null);
   return { data: getReformattedData(data), ...rest };
 };

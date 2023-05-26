@@ -17,12 +17,17 @@ const WebArchiveDetailList = ({ url }: WebArchiveDetailListProps) => {
   const router = useRouter();
   const { from, to, page = 1 } = router.query as IWebArchiveDetailParams;
 
-  const { data, isLoading, error } = useWebArchiveDetailList({
-    url,
-    from: dayjs(from).format(SERVER_DATE_FORMAT),
-    to: dayjs(to).format(SERVER_DATE_FORMAT),
-    page: Number(page) || 0,
-  });
+  const shouldFetch = !!from && !!to;
+
+  const { data, isLoading, error } = useWebArchiveDetailList(
+    {
+      url,
+      from: dayjs(from).format(SERVER_DATE_FORMAT),
+      to: dayjs(from).format(SERVER_DATE_FORMAT),
+      page: Number(page) || 0,
+    },
+    shouldFetch
+  );
 
   const columns: ColumnsType<IWebArchiveDetail> = [
     {
