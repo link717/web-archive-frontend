@@ -5,11 +5,10 @@ import Link from 'next/link';
 import React from 'react';
 import useLocalStorage from '@common/hooks/useLocalStorage';
 import { ISO8601DateTime } from '@common/types/common';
-import { getDefaultFromDate, getDefaultToDate } from '@common/utils/util';
 import DefaultCard from '@components/layout/default-card';
 import DefaultTable from '@components/layout/default-table';
 import { IWebArchive } from '@services/webArchive';
-import { CLIENT_DATE_FORMAT, WEB_ARCHIVE_STORAGE_KEY } from '../constant';
+import { WEB_ARCHIVE_STORAGE_KEY } from '../constant';
 
 interface IWebArchiveListProps {
   webArchive: IWebArchive[];
@@ -37,17 +36,7 @@ const WebArchiveList = ({ webArchive, setWebArchive }: IWebArchiveListProps) => 
       align: 'center',
       width: 100,
       render: (value: string) => {
-        return (
-          <Link
-            href={`/web-archive-detail?url=${value}&from=${getDefaultFromDate().format(CLIENT_DATE_FORMAT)}&to=${getDefaultToDate().format(
-              CLIENT_DATE_FORMAT
-            )}&page=1`}
-            passHref
-            legacyBehavior
-          >
-            <a>{value}</a>
-          </Link>
-        );
+        return <Link href={`/web-archive-detail?url=${value}`}>{value}</Link>;
       },
     },
     {

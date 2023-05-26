@@ -16,11 +16,11 @@ const { RangePicker } = DatePicker;
 
 const WebArchiveDetailFilter = () => {
   const router = useRouter();
-  const { from, to } = router.query;
+  const { url, from, to } = router.query;
   const [form] = useForm();
 
   const handleFinish = (formValue: IWebArchiveDetailListFilterFormValue) => {
-    const query: Record<string, string> = {};
+    const query: Record<string, string> = { url: url as string };
 
     if (formValue.filterDateRange) {
       query.from = formValue.filterDateRange[0].format(CLIENT_DATE_FORMAT);
