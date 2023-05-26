@@ -1,6 +1,7 @@
 import { Alert } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 import dayjs from 'dayjs';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { ISO8601DateTime } from '@common/types/common';
@@ -41,6 +42,8 @@ const WebArchiveDetailList = ({ url }: WebArchiveDetailListProps) => {
       dataIndex: 'timestamp',
       align: 'center',
       width: 120,
+      sorter: (prev, cur) => dayjs(prev.timestamp).unix() - dayjs(cur.timestamp).unix(),
+      sortDirections: ['descend'],
       render: (value: ISO8601DateTime) => {
         return <span className="block">{dayjs(value).format('YYYY/MM/DD HH:mm')}</span>;
       },
@@ -52,7 +55,7 @@ const WebArchiveDetailList = ({ url }: WebArchiveDetailListProps) => {
       width: 100,
       render: (_, record) => {
         const linkUrl = `${process.env.NEXT_PUBLIC_API_URL}/web/${record.timestamp}/${record.original}`;
-        return <a href={linkUrl}>{record.original}</a>;
+        return <Link href={linkUrl}>{record.original}</Link>;
       },
     },
     {
