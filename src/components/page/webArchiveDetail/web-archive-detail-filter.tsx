@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 import { Search } from 'lucide-react';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { getTenYearsAgoJanuaryFirst, getToday } from '@common/utils/util';
+import { getToday } from '@common/utils/util';
 import DefaultCard from '@components/layout/default-card';
 import DefaultForm from '@components/layout/default-form';
 import { IWebArchiveDetailListFilterFormValue } from '@services/webArchive';
@@ -35,13 +35,20 @@ const WebArchiveDetailFilter = () => {
 
   const handleDisabledDate = (current: dayjs.Dayjs) => {
     if (!current) return false;
-    return current < getTenYearsAgoJanuaryFirst() || current > getToday();
+    return current > getToday();
+  };
+
+  const toDayjs = (date?: string | string[]) => {
+    if (typeof date === 'string') {
+      return date ? dayjs(date) : null;
+    }
+    return null;
   };
 
   return (
     <DefaultCard title="검색 필터">
       <DefaultForm form={form} onFinish={handleFinish} layout="horizontal">
-        <Form.Item label="조회 기간" name="filterDateRange" initialValue={[dayjs(from as string), dayjs(to as string)]}>
+        <Form.Item label="조회 기간" name="filterDateRange" initialValue={[toDayjs(from), toDayjs(to)]}>
           <RangePicker format={CLIENT_DATE_FORMAT} disabledDate={handleDisabledDate} />
         </Form.Item>
 
