@@ -6,8 +6,9 @@ import useLocalStorage from '@common/hooks/useLocalStorage';
 import { generatePrefixedId } from '@common/utils/util';
 import DefaultCard from '@components/layout/default-card';
 import DefaultForm from '@components/layout/default-form';
-import { ALREADY_EXIST_URL_ERROR_MESSAGE, SAVE_MAX_COUNT, WEB_ARCHIVE_STORAGE_KEY } from '@components/page/constant';
+import { SAVE_MAX_COUNT, WEB_ARCHIVE_STORAGE_KEY } from '@components/page/constant';
 import { IWebArchive, IWebArchiveFormValue } from '@services/webArchive';
+import validateAndCheckURLForm from './validator';
 
 interface IWebArchiveFormProps {
   setWebArchive: React.Dispatch<React.SetStateAction<IWebArchive[]>>;
@@ -18,18 +19,9 @@ const WebArchiveForm = ({ setWebArchive }: IWebArchiveFormProps) => {
   const [messageApi, contextHolder] = message.useMessage();
   const { getLocalStorage, setLocalStorage } = useLocalStorage<IWebArchive>(WEB_ARCHIVE_STORAGE_KEY);
 
-  const isPossibleToSave = (savedStorageData: IWebArchive[], maxCount: number): boolean => {
-    return (savedStorageData?.length || 0) < maxCount;
-  };
-
-  const getSaveMaxCountErrorMessage = (maxCount: number): string => {
-    return `최대 ${maxCount}개까지만 저장할 수 있습니다.`;
-  };
-
   const handleFinish = (formValue: IWebArchiveFormValue) => {
     try {
       const savedStorageData = getLocalStorage();
-      const isDuplicateData = savedStorageData.some((data) => data.url === formValue.url);
 
       const newStorageData: IWebArchive = {
         id: generatePrefixedId(WEB_ARCHIVE_STORAGE_KEY),
@@ -37,16 +29,12 @@ const WebArchiveForm = ({ setWebArchive }: IWebArchiveFormProps) => {
         url: formValue.url,
       };
 
-      if (isDuplicateData) {
-        throw new Error(ALREADY_EXIST_URL_ERROR_MESSAGE);
-      }
+      const isValidURLForm = validateAndCheckURLForm(formValue.url, savedStorageData, SAVE_MAX_COUNT);
 
-      if (isPossibleToSave(savedStorageData, SAVE_MAX_COUNT)) {
+      if (isValidURLForm) {
         const res = setLocalStorage([...savedStorageData, newStorageData]);
         setWebArchive(res);
         form.resetFields();
-      } else {
-        throw new Error(getSaveMaxCountErrorMessage(SAVE_MAX_COUNT));
       }
     } catch (e: unknown) {
       if (e instanceof Error) {
