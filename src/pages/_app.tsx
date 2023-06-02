@@ -3,6 +3,7 @@ import koKR from 'antd/locale/ko_KR';
 import dayjs from 'dayjs';
 import { NextComponentType } from 'next';
 import type { AppProps } from 'next/app';
+import Head from 'next/head';
 import React from 'react';
 import { SWRConfig } from 'swr';
 import { TDefaultLayoutPage } from '@components/layout/default-layout';
@@ -18,6 +19,10 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <ConfigProvider locale={koKR}>
+      <Head>
+        <title>Web Archive</title>
+        <meta name="description" content="Web Archive를 사용한 토이 프로젝트" />
+      </Head>
       <SWRConfig value={{ fetcher, revalidateOnFocus: false }}>{getLayout(Component, pageProps)}</SWRConfig>
     </ConfigProvider>
   );
